@@ -12,7 +12,7 @@ pipeline {
         stage('deploy to S3'){
             steps{
                 withAWS(credentials: 'akshay', region: 'ap-south-1') {
-                     sh 'aws s3 cp ./  s3://my-first-cicd-project-bucket --recursive' 
+                     sh 'aws s3 cp ./  s3://my-jenkins-cicd-project-bucket --recursive' 
                 }  
             }
         }
