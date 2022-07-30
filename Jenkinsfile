@@ -2,19 +2,24 @@ pipeline {
     agent any
 
     stages{
-        stage('deploy to S3'){
+        
+        stage('git fetch'){
+            
             steps{
-                sh 'aws s3 cp public/index.html s3://ak-my-jenkins-project-bucket'
-                sh 'aws s3api put-object-acl --bucket ak-my-jenkins-project-bucket --key index.html --acl public-read'
-                sh 'aws s3 cp public/error.html s3://ak-my-jenkins-project-bucket'
-                sh 'aws s3api put-object-acl --bucket ak-my-jenkins-project-bucket --key error.html --acl public-read'
+                git branch: 'main', url: 'https://github.com/akshay-roxiler/Play-With-Dice.git'
             }
         }
-    }
+        stage('deploy to S3'){
+            steps{
+                withAWS(credentials: 'akshay', region: 'ap-south-1') {
+                     sh 'aws s3 cp ./  s3://ak-my-jenkins-project-bucket --recursive' 
+                }  
+            }
+        }
+   
+} }
     post{
         always{
             cleanWs disableDeferredWipeout: true, deleteDirs: true
         }
     }
-
-}
