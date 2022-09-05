@@ -1,4 +1,4 @@
 mkdir -p /web
 curl -O https://bootstrap.pypa.io/get-pip.py
-python get-pip.py --user
-python -m pip install Flask
+python3.7 get-pip.py --user
+pip install Flask
