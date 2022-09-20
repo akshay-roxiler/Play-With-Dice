@@ -1,18 +1,31 @@
 version: 0.0
 os: linux
+
+# Make sure that "destination" is not same for two different Code Deploy Groups/Deployments.
 files:
   - source: /
-    destination: /web/
+    destination: /home/ec2-user/server2
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
+
 hooks:
-  AfterInstall:
-    - location: scripts/mkdir.sh
+  BeforeInstall:
+    - location: install_dependencies.sh
       timeout: 300
-      runas: root
-  ApplicationStart:
-    - location: scripts/start_flask.sh
-      timeout: 300
-      runas: root
+      runas: ec2-user
   ApplicationStop:
-    - location: scripts/stop_flask1.sh
-      timeout: 300
-      runas: root
+    - location: stop.sh
+      timeout: 20
+      runas: ec2-user
+  ApplicationStart:
+    - location: start.sh
+      timeout: 20
+      runas: ec2-user
+  ValidateService:
+    - location: validate.sh
+      timeout: 20
+      runas: ec2-user
