@@ -10,11 +10,9 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - mvn test
       - echo Test completed on `date`
   post_build:
     commands:
-      - mvn clean package
       - echo Build completed on `date`
 artifacts:
   discard-paths: yes
