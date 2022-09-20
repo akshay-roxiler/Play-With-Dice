@@ -10,6 +10,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - yum install -y maven
       - mvn test
       - echo Test completed on `date`
   post_build:
